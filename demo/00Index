@@ -1,0 +1,3 @@
+dataframe	Exports a data.frame using a CSS file
+equations	Include LaTeX equations within a document
+grids		Using grids (ActiveWidget) within HTML documents
