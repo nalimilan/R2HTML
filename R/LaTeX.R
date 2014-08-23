@@ -8,7 +8,7 @@ as.latex <- function(x,label=NULL,inline=ifelse(is.null(label),TRUE,FALSE),count
 }
 
 
-"HTML.latex" <- function(x,file = get(".HTML.file"),...)
+"HTML.latex" <- function(x,file = get(".HTML.file", envir=.HTMLEnv),...)
 {
   ### Note: no append argument as it could ONLY be happened to work...
   # count: add a (#)

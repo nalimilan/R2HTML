@@ -24,7 +24,7 @@
 
 # -------------------- HTML.summary.lme --------------------------------
 # After print.summary.lme
-HTML.summary.lme = function (x, file=get(".HTML.file"),
+HTML.summary.lme = function (x, file=get(".HTML.file", envir=.HTMLEnv),
   digits = max(3,getOption("digits")-3),
   use.cormat = TRUE, # no symbolic.cor used when true
   symbolic.cor = p>4,
@@ -114,7 +114,7 @@ HTML.summary.lme = function (x, file=get(".HTML.file"),
 # Modelled after print.reStruct in nlme
 # This function used internally
 HTML.reStruct = function (x, sigma = 1, reEstimates, verbose = FALSE,
-  file=get(".HTML.file"),digits=max(3,getOption("digits")-3),use.cormat=FALSE,...)
+  file=get(".HTML.file", envir=.HTMLEnv),digits=max(3,getOption("digits")-3),use.cormat=FALSE,...)
 {
   if (nlme::isInitialized(x)) {
     nobj <- length(x)
