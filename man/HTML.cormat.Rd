@@ -6,7 +6,10 @@
   Although the class \sQuote{cormat} is not defined, the function is called to \code{HTML.cormat}, to highlight the fact it should be called only with a correlation matrix. 
 }
 \usage{
-HTML.cormat(x, file = get(".HTML.file"), digits = 2, append = TRUE, align = "center", caption = "", captionalign = "bottom", classcaption = "captiondataframe", classtable = "cormat", useCSS = TRUE, ...)
+HTML.cormat(x, file = get(".HTML.file", envir=.HTMLEnv),
+digits = 2, append = TRUE, align = "center",
+caption = "", captionalign = "bottom",
+classcaption = "captiondataframe", classtable = "cormat", useCSS = TRUE, ...)
 }
 
 \arguments{
@@ -40,9 +43,11 @@ For CSS uses, you can (re)define colours and other attributes for correlations i
 \examples{
 	tmpfic=HTMLInitFile(tempdir(),CSSFile="http://www.stat.ucl.ac.be/R2HTML/Pastel.css")
 	data(iris)
-	HTML(as.title("Fisher Iris dataset / Correlation matrix - normal matrix"),file=tmpfic)
+	HTML(as.title("Fisher Iris dataset / Correlation matrix - normal matrix"),
+	     file=tmpfic)
 	HTML(cor(iris[,1:4]), file=tmpfic)
-	HTML(as.title("Fisher Iris dataset / Correlation matrix - traffic highlighting"),file=tmpfic)
+	HTML(as.title("Fisher Iris dataset / Correlation matrix - traffic highlighting"),
+	     file=tmpfic)
 	HTML.cormat(cor(iris[,1:4]), file=tmpfic)
 
 	# File is generated, you can call the browser:

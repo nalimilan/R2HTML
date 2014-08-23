@@ -8,7 +8,10 @@
  }
 
 \usage{
-HTMLStart(outdir = tempdir(), filename = "index", extension = "html", echo = FALSE, autobrowse = FALSE, HTMLframe = TRUE, withprompt = "HTML> ", CSSFile = "R2HTML.css", BackGroundColor = "FFFFFF", BackGroundImg = "", Title = "R output") 
+HTMLStart(outdir = tempdir(), filename = "index", extension = "html",
+echo = FALSE, autobrowse = FALSE, HTMLframe = TRUE, withprompt = "HTML> ",
+CSSFile = "R2HTML.css", BackGroundColor = "FFFFFF", BackGroundImg = "",
+Title = "R output") 
 HTMLStop()
 }
 

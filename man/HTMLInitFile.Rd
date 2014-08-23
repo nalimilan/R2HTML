@@ -8,8 +8,10 @@
 }
 
 \usage{
-HTMLInitFile(outdir = tempdir(),filename="index",extension="html",HTMLframe=FALSE, BackGroundColor = "FFFFFF", BackGroundImg = "", Title = "R output",CSSFile="R2HTML.css",useLaTeX=TRUE,useGrid=TRUE)
-HTMLEndFile(file = get(".HTML.file"))
+HTMLInitFile(outdir = tempdir(), filename="index", extension="html",
+HTMLframe=FALSE, BackGroundColor = "FFFFFF", BackGroundImg = "",
+Title = "R output", CSSFile="R2HTML.css", useLaTeX=TRUE, useGrid=TRUE)
+HTMLEndFile(file = get(".HTML.file", envir=.HTMLEnv))
 }
 
 
@@ -43,7 +45,8 @@ HTMLEndFile(file = get(".HTML.file"))
 	target <- HTMLInitFile(file.path(tempdir(),"R2HTML"),"index", BackGroundColor="#BBBBEE")
 	# Use target to write a dataframe
 	HTML(as.title("Here is the data frame"),file=target)
-	HTML("<br>Don't forget to use the CSS file in order to benefit from fixed size police",file=target)
+	HTML("<br>Don't forget to use the CSS file in order to benefit from fixed size police",
+	     file=target)
 	tmp <- as.data.frame(matrix(rnorm(100),ncol=10))
 	HTML(tmp,file=target)
 	HTMLEndFile()

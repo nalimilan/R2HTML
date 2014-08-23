@@ -6,7 +6,7 @@
   This function exports a data.frame to a HTML file. Many arguments allow to customize the layout of the HTML table.
 }
 
-\usage{\method{HTML}{data.frame}(x, file = get(".HTML.file"),
+\usage{\method{HTML}{data.frame}(x, file = get(".HTML.file", envir=.HTMLEnv),
     Border = 1, innerBorder = 0, classfirstline = "firstline",
     classfirstcolumn = "firstcolumn", classcellinside = "cellinside",
     append = TRUE, align = "center", caption = "", captionalign = "bottom",

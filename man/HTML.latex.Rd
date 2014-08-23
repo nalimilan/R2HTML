@@ -7,8 +7,9 @@
   This makes use of \code{AsciiMathML} javascript functions. Standard LaTeX input will be turned into MathML and displayed through any brower extension that can handle MathML (such as MathPlayer)
 }
 \usage{
-as.latex(x,label=NULL,inline=ifelse(is.null(label),TRUE,FALSE),count=ifelse(is.null(label),FALSE,TRUE))
-\method{HTML}{latex}(x, file = get(".HTML.file"), ...)
+as.latex(x, label=NULL,
+inline=ifelse(is.null(label), TRUE, FALSE), count=ifelse(is.null(label), FALSE, TRUE))
+\method{HTML}{latex}(x, file = get(".HTML.file", envir=.HTMLEnv), ...)
 }
 
 \arguments{
