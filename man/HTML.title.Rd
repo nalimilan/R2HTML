@@ -4,10 +4,10 @@
 
 \title{ Writes a title in a target HTML output }
 \description{
-  A title is a string with the S3 class "title". The function \code{as.title} gives this class to an object, so that title method of HTML could apply to it.
+  A title is a string with the S3 class "title". The function \code{as.title} gives this class to an object, so that title method of HTML could apply to it. However, it is also possibly to call this method, explicitly, providing a plain string.
 }
 \usage{
-HTML.title(x, HR = 2, CSSclass=NULL,
+\method{HTML}{title}(x, HR = 2, CSSclass=NULL,
 file = get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
 as.title(x)
 }
