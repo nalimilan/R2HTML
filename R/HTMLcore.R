@@ -3286,8 +3286,6 @@ NextMethod("HTML")
     cat("\n", file=file, append=append,...)
     if (!inherits(x, "rpart"))
         stop("Not legitimate rpart object")
-    if (!is.null(x$frame$splits))
-        x <- rpart::rpconvert(x)
     if (!missing(cp))
         x <- rpart::prune.rpart(x, cp = cp)
     frame <- x$frame
