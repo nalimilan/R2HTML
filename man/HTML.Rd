@@ -76,7 +76,6 @@
 \alias{HTML.correspondence}
 \alias{HTML.cox.zph}
 \alias{HTML.coxph.null}
-\alias{HTML.date}
 \alias{HTML.diana}
 \alias{HTML.dissimilarity}
 \alias{HTML.dist}

@@ -3596,21 +3596,6 @@ NextMethod("HTML")
 ### PACKAGE SURVIVAL
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.date" <- function (x, quote, prefix, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
-{
-    cat("\n", file=file, append=append,...)
-	y<-x
-    fun <- options()$print.date
-        if (is.null(fun)) x <- survival::date.ddmmmyy(x)
-    else x <- get(fun)(x)
-    if (missing(quote))  quote <- FALSE
-    HTML.atomic(x, file=file)
-    invisible(y)
-}
-
-
-#----------------------------------------------------------------------------------------------------#
-
 "HTML.cox.zph" <- function (x, digits = max(options()$digits - 4, 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 HTML(x$table, file=file,append=append,...)
 
