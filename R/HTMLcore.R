@@ -34,6 +34,21 @@
 ".HTMLEnv" <- new.env(parent=emptyenv())
 
 #----------------------------------------------------------------------------------------------------#
+"HTMLSetFile" <- function(file) {
+    assign(".HTML.file", file, .HTMLEnv)
+    file
+}
+
+#----------------------------------------------------------------------------------------------------#
+"HTMLGetFile" <- function() {
+    if(exists(".HTML.file", .HTMLEnv))
+         get(".HTML.file", .HTMLEnv)
+    else
+         stop("not default HTML output file defined; please call HTMLSetFile() to set it")
+}
+
+#----------------------------------------------------------------------------------------------------#
+
 "HTML"<- function(x,...) {
 	UseMethod("HTML")
   	}
@@ -41,7 +56,7 @@
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.default"<-
-function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+function(x, file=HTMLGetFile(), append=TRUE,...)
 {
 	HTML(paste(capture.output(x),collapse="\n<br>\n"),file=file,append=append,...)
 	invisible(x)
@@ -50,19 +65,19 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.atomic"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...){
+"HTML.atomic"<- function(x, file=HTMLGetFile(), append=TRUE, ...){
 	cat(paste("\n<p class='atomic'>",paste(x,collapse="&nbsp; "),"</p>\n",sep="",collapse=""), file= file, append = append, sep = " ")
 }
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.complex"<- function(x, file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...){
+"HTML.complex"<- function(x, file=HTMLGetFile(), append=TRUE,...){
 	cat(paste("\n<p><font class='complexRe'>",Re(x),"</font>",ifelse(sign(Im(x))<0,"-","+"),"<font class='complexIm'>",Im(x),"</font><font class='complexI'>i</font>","</p>\n",sep="",collapse=""), file= file, append = append, sep = " ")
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.numeric"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...){
+"HTML.numeric"<- function(x, file=HTMLGetFile(), append=TRUE, ...){
 	if(!is.null(names(x))) {
 		HTML(as.table(x),file=file,append=append,...)
 		}
@@ -72,31 +87,31 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 	}
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.integer"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...){
+"HTML.integer"<- function(x, file=HTMLGetFile(), append=TRUE, ...){
 	cat(paste("\n<p class='integer'>",paste(x,collapse="&nbsp; "),"</p>\n",sep="",collapse=""), file= file, append = append, sep = " ")
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.logical"<- function(x, file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...){
+"HTML.logical"<- function(x, file=HTMLGetFile(), append=TRUE,...){
 	cat(paste("\n<p class='logical'>",paste(x,collapse="&nbsp; "),"</p>\n",sep="",collapse=""), file= file, append = append, sep = " ")
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.character"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...){
+"HTML.character"<- function(x, file=HTMLGetFile(), append=TRUE, ...){
 	cat(paste("\n<p class='character'>",paste(x,collapse="&nbsp; "),"</p>\n",sep="",collapse=""), file= file, append = append, sep = " ")
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.call"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...){
+"HTML.call"<- function(x, file=HTMLGetFile(), append=TRUE, ...){
 	cat(paste("<font class='call'>",deparse(x),"</font>",sep="",collapse=""), file= file, append = append, sep = " ")
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.function"<-function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...){
+"HTML.function"<-function(x,file=HTMLGetFile(), append=TRUE,...){
 	 cat(paste("\n<br>\n<xmp class=function>",
 	 paste(capture.output(x),collapse="\n"),"\n</xmp><br>\n",sep=""),
 	file=file,append=append,sep="\n<br>\n")
@@ -105,20 +120,20 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.environment"<-function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...){
+"HTML.environment"<-function(x,file=HTMLGetFile(), append=TRUE,...){
 	cat(paste("\n<br>environment: <font class='environment'>",attributes(x)$name,"</font><br>\n",sep=""),
 	file=file,append=append)
 	invisible(x)
 }
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.formula"<-function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...) {
+"HTML.formula"<-function(x,file=HTMLGetFile(), append=TRUE,...) {
 	HTML(paste("<font class='formula'>",deparse(unclass(x)),"</font>",collapse=""),file=file,append=append,...)
 	}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.array"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.array"<- function(x, file=HTMLGetFile(), append=TRUE, ...)
 {
 	odometer <- function(current, radix)
 	{
@@ -178,7 +193,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.by"<- function (x, file=get(".HTML.file", envir=.HTMLEnv),vsep="\n<hr size=1 width=100%>\n",append=TRUE,...)
+"HTML.by"<- function (x, file=HTMLGetFile(),vsep="\n<hr size=1 width=100%>\n",append=TRUE,...)
 {
 
     HTML("\n",file=file,append=append,...)
@@ -203,7 +218,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.family" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.family" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     HTML(paste("\n<br><b>Family</b>:<font class='family'>", x$family, "\n</font><br>",sep=""),file=get(".HTML.file",pos=1),append=append,...)
     HTML(paste("\n<b>Link function</b>:<font class='link'>", x$link, "\n</font><br>\n<br>",sep=""),file=get(".HTML.file",pos=1),append=TRUE,...)
@@ -211,11 +226,11 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.terms" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)	HTML.default(paste("<font class='terms'>",unclass(x),"</font>",sep=""),file=file,append=append,...)
+"HTML.terms" <- function (x, file=HTMLGetFile(), append=TRUE,...)	HTML.default(paste("<font class='terms'>",unclass(x),"</font>",sep=""),file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.factor" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.factor" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     HTML("\n\n<font class='factor'>",file=file,append=append,...)
     if (length(x) <= 0)
@@ -228,7 +243,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 }
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.density" <- function (x,file=get(".HTML.file", envir=.HTMLEnv),  digits=4,append=TRUE,...)
+"HTML.density" <- function (x,file=HTMLGetFile(),  digits=4,append=TRUE,...)
 {
 
     HTML(paste("\n<br><b>Call</b>:<font class='call'>\n      ", deparse(x$call), "</font><br><br>\n\n<b>Data</b><font class='dataname'>: ", x$data.name,
@@ -239,7 +254,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.infl" <- function (x,  file=get(".HTML.file", envir=.HTMLEnv),digits = max(3, getOption("digits") - 4),append=TRUE,...)
+"HTML.infl" <- function (x,  file=HTMLGetFile(),digits = max(3, getOption("digits") - 4),append=TRUE,...)
 {
     HTML(paste("\n<br>Influence measures of\n<br>      <font class='call'>  ", deparse(x$call), ":</font>\n<br>\n<br>",sep=""),file=file,append=append,...)
     is.star <- apply(x$is.inf, 1, any, na.rm = TRUE)
@@ -250,7 +265,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.lm"<-function(x,file=get(".HTML.file", envir=.HTMLEnv),digits= max(3, getOption("digits") - 3),append=TRUE,...)
+"HTML.lm"<-function(x,file=HTMLGetFile(),digits= max(3, getOption("digits") - 3),append=TRUE,...)
 {
 	HTMLli(paste("Call: <font class='call'>",deparse(x$call),"</font>",sep=""),file=file,append=append,...)
 	HTMLli("Coefficients<br>",file=file,append=TRUE,...)
@@ -259,7 +274,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 }
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.lm.null" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),digits = max(3, getOption("digits") - 3),append=TRUE,...)
+"HTML.lm.null" <- function (x, file=HTMLGetFile(),digits = max(3, getOption("digits") - 3),append=TRUE,...)
 {
     HTMLli(paste("Call: <font class='call'>", deparse(x$call),"</font>", "\n<br>", sep = ""),file=file,append=append,...)
     HTMLli("No coefficients<br>\n",append=TRUE,...)
@@ -268,7 +283,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 #----------------------------------------------------------------------------------------------------#
 
 
-"HTML.ftable" <- function (x,  file=get(".HTML.file", envir=.HTMLEnv),digits = getOption("digits"),append=TRUE,...)
+"HTML.ftable" <- function (x,  file=HTMLGetFile(),digits = getOption("digits"),append=TRUE,...)
 {
  if (!inherits(x, "ftable"))
         stop("x must be an `ftable'")
@@ -303,20 +318,20 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.POSIXlt" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...) HTML(paste("<P class='POSIXlt'>",format(x, usetz = TRUE),"</p>",sep=""), file=file,append=append,...)
+"HTML.POSIXlt" <- function (x, file=HTMLGetFile(), append=TRUE,...) HTML(paste("<P class='POSIXlt'>",format(x, usetz = TRUE),"</p>",sep=""), file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.POSIXct" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...) HTML(paste("<P class='POSIXct'>",format(x, usetz = TRUE),"</p>",sep=""), file=file,append=append,...)
+"HTML.POSIXct" <- function (x, file=HTMLGetFile(), append=TRUE,...) HTML(paste("<P class='POSIXct'>",format(x, usetz = TRUE),"</p>",sep=""), file=file,append=append,...)
 
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.octmode" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)  HTML(paste("<P class='octmode'>",format(x),"</p>",sep=""), file=file,append=append,...)
+"HTML.octmode" <- function (x, file=HTMLGetFile(), append=TRUE,...)  HTML(paste("<P class='octmode'>",format(x),"</p>",sep=""), file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.rle" <- function (x, digits = getOption("digits"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.rle" <- function (x, digits = getOption("digits"), file=HTMLGetFile(), append=TRUE,...)
 {
     HTML("<b><center>Run Length Encoding</center></b>\n<br>\n",file=file,append=append,...)
 	tab<-rbind(x$length,x$values)
@@ -326,11 +341,11 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.logLik" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),digits = getOption("digits"),append=TRUE,...)    HTML(paste("<p>`log Lik.' ", format(c(x), digits = digits), " (df=",  format(attr(x, "df")), ")\n</p>", sep = ""),file=file,append=append,...)
+"HTML.logLik" <- function (x, file=HTMLGetFile(),digits = getOption("digits"),append=TRUE,...)    HTML(paste("<p>`log Lik.' ", format(c(x), digits = digits), " (df=",  format(attr(x, "df")), ")\n</p>", sep = ""),file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.xtabs" <- function (x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+ "HTML.xtabs" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     ox <- x
     attr(x, "call") <- NULL
@@ -340,7 +355,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.lm"<-function (x, file=get(".HTML.file", envir=.HTMLEnv),digits = max(3, getOption("digits") - 3), symbolic.cor = p >   4, signif.stars = getOption("show.signif.stars"),append=TRUE,...)
+"HTML.summary.lm"<-function (x, file=HTMLGetFile(),digits = max(3, getOption("digits") - 3), symbolic.cor = p >   4, signif.stars = getOption("show.signif.stars"),append=TRUE,...)
 {
 
 	HTML("\n",file=file,append=append)
@@ -402,7 +417,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 "HTML.coefmat"<- function (x, digits = max(3, getOption("digits") - 2), signif.stars = getOption("show.signif.stars"),
     dig.tst = max(1, min(5, digits - 1)), cs.ind = 1:k, tst.ind = k +
         1, zap.ind = integer(0), P.values = NULL, has.Pvalue = nc >=
-        4 && substr(colnames(x)[nc], 1, 3) == "Pr(", na.print = "",file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+        4 && substr(colnames(x)[nc], 1, 3) == "Pr(", na.print = "",file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\n",file=file,append=append,...)
     if (is.null(d <- dim(x)) || length(d) != 2)
@@ -484,7 +499,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.table"<- function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,digits=4,...)
+"HTML.table"<- function(x, file=HTMLGetFile(), append=TRUE,digits=4,...)
 {
 	cat("\n",file=file,append=append)
 	if (!is.null(digits) && is.numeric(x)) x <- round(x,digits) # PhG, because summary(iris) returns a table, but it is not numeric!
@@ -495,7 +510,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.listof" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.listof" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\n",file=file,append=append,...)
     nn <- names(x)
@@ -511,7 +526,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ts" <- function (x, calendar=NULL, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ts" <- function (x, calendar=NULL, file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\n", file=file,append=append,...)
     x.orig <- x
@@ -586,7 +601,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 #----------------------------------------------------------------------------------------------------#
 
 
-"HTML.list" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),first=TRUE,append=TRUE,...)
+"HTML.list" <- function(x,file=HTMLGetFile(),first=TRUE,append=TRUE,...)
 {
 	cat("\n", file=file,append=append,...)
 	if (first) {HTML("<hr class='hr'>",file=file,append=TRUE,sep="\n")}
@@ -601,7 +616,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 }
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.pairlist" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),first=TRUE,append=TRUE,...)
+"HTML.pairlist" <- function(x,file=HTMLGetFile(),first=TRUE,append=TRUE,...)
 {
 	cat("\n", file=file,append=append,...)
 	if (first) {HTML("<hr class='hr'>",file=file,append=TRUE,sep="\n")}
@@ -628,7 +643,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 #
 
 "HTML.data.frame" <- function(
-            x, file=get(".HTML.file", envir=.HTMLEnv),
+            x, file=HTMLGetFile(),
             Border = 1, innerBorder = 0,
             classfirstline = "firstline",
             classfirstcolumn = "firstcolumn",
@@ -762,7 +777,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.matrix" <- function(x, file=get(".HTML.file", envir=.HTMLEnv), Border = 1, innerBorder = 0, classfirstline = "firstline", classfirstcolumn = "firstcolumn", classcellinside = "cellinside",  append=TRUE,align="center",caption="",captionalign="bottom",classcaption="captiondataframe",classtable="dataframe",digits=getOption("R2HTML.format.digits"),nsmall = getOption("R2HTML.format.nsmall"), big.mark = getOption("R2HTML.format.big.mark"), big.interval = getOption("R2HTML.format.big.interval"), decimal.mark = getOption("R2HTML.format.decimal.mark"),...)
+"HTML.matrix" <- function(x, file=HTMLGetFile(), Border = 1, innerBorder = 0, classfirstline = "firstline", classfirstcolumn = "firstcolumn", classcellinside = "cellinside",  append=TRUE,align="center",caption="",captionalign="bottom",classcaption="captiondataframe",classtable="dataframe",digits=getOption("R2HTML.format.digits"),nsmall = getOption("R2HTML.format.nsmall"), big.mark = getOption("R2HTML.format.big.mark"), big.interval = getOption("R2HTML.format.big.interval"), decimal.mark = getOption("R2HTML.format.decimal.mark"),...)
 {
    cat("\n", file=file,append=append)
 
@@ -828,7 +843,7 @@ function(x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.structure"<-
-function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+function(x, a = attributes(x), prefix = "", file=HTMLGetFile(), append=TRUE, ...)
 {
 	cat("\n",file=file,append=append,...)
 	n <- length(dim(x))
@@ -869,11 +884,11 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.connection" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...) HTML(paste("<font class='connection'>",unlist(summary(x)),"</font>",sep=""),file=file,append=append,...)
+"HTML.connection" <- function(x,file=HTMLGetFile(), append=TRUE,...) HTML(paste("<font class='connection'>",unlist(summary(x)),"</font>",sep=""),file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.socket" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.socket" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     if (length(port <- as.integer(x$socket)) != 1)
         stop("invalid `socket' argument")
@@ -883,7 +898,7 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 }
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.htest" <- function (x, digits = 4, quote = TRUE, prefix = "",file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.htest" <- function (x, digits = 4, quote = TRUE, prefix = "",file=HTMLGetFile(), append=TRUE, ...)
 {
             HTML("\n", file=file,append=append)
             HTML(as.title(paste("&nbsp;",x$method,sep="")),file=file,append=TRUE,...)
@@ -926,7 +941,7 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.aov" <- function (x, intercept = FALSE, tol = .Machine$double.eps^0.5, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+ "HTML.aov" <- function (x, intercept = FALSE, tol = .Machine$double.eps^0.5, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file,append=append,...)
     if (!is.null(cl <- x$call))  HTMLli(paste("Call:\n<br><font class='call'>", deparse(cl)),"</font>",file=file)
@@ -1016,7 +1031,7 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.anova" <- function (x, digits = max(getOption("digits") - 2, 3), signif.stars = getOption("show.signif.stars"),file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.anova" <- function (x, digits = max(getOption("digits") - 2, 3), signif.stars = getOption("show.signif.stars"),file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\n", file=file,append=append,...)
     if (!is.null(heading <- attr(x, "heading")))
@@ -1042,7 +1057,7 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.glm" <- function (x, digits = max(3, getOption("digits") - 3), na.print = "", file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.glm" <- function (x, digits = max(3, getOption("digits") - 3), na.print = "", file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file,append=append,...)
     HTMLli(paste("Call: <font class='call'>", deparse(x$call),"</font>", "\n<br>\n<br>"),file=file)
@@ -1063,7 +1078,7 @@ function(x, a = attributes(x), prefix = "", file=get(".HTML.file", envir=.HTMLEn
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.tables.aov" <-  function (x, digits = 4, file=get(".HTML.file", envir=.HTMLEnv),...)
+ "HTML.tables.aov" <-  function (x, digits = 4, file=HTMLGetFile(),...)
  {
 HTML("<center>",file=file)
      tables.aov <- x$tables
@@ -1150,7 +1165,7 @@ HTML("<center>",file=file)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.mtable" <- function (x, digits = getOption("digits"),file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.mtable" <- function (x, digits = getOption("digits"),file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\n", file=file,append=append,...)
     xxx <- x
@@ -1178,7 +1193,7 @@ HTML("<center>",file=file)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.integrate" <- function (x, digits = getOption("digits"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.integrate" <- function (x, digits = getOption("digits"), file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\"n", file=file,append=append,...)
     if (x$message == "OK")
@@ -1191,7 +1206,7 @@ HTML("<center>",file=file)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.lm.null" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.lm.null" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
 
     cat("\"n", file=file,append=append,...)
@@ -1225,7 +1240,7 @@ HTML("<center>",file=file)
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.summary.glm" <- function (x, digits = max(3, getOption("digits") - 3), na.print = "",
-    symbolic.cor = p > 4, signif.stars = getOption("show.signif.stars"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,
+    symbolic.cor = p > 4, signif.stars = getOption("show.signif.stars"), file=HTMLGetFile(), append=TRUE,
     ...)
 {
     cat("\n", file=file,append=append,...)
@@ -1270,7 +1285,7 @@ HTML("<center>",file=file)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.hsearch" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.hsearch" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\"n", file=file,append=append,...)
     fields <- paste(x$fields, collapse = " or ")
@@ -1288,12 +1303,12 @@ HTML("<center>",file=file)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.aov" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.aov" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
 NextMethod("HTML")
 }
 
-"HTML.aovlist" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.aovlist" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
    cat("\"n", file=file,append=append,...)
     cl <- attr(x, "call")
@@ -1326,7 +1341,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.SavedPlots" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.SavedPlots" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
 	cat("\"n",file=file,append=append,...)
     if (x[[1]] != 31416) {
@@ -1342,7 +1357,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ordered" <- function (x, quote = FALSE,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.ordered" <- function (x, quote = FALSE,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (length(x) <= 0)
@@ -1354,7 +1369,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.difftime" <- function (x, digits = getOption("digits"),file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.difftime" <- function (x, digits = getOption("digits"),file=HTMLGetFile(), append=TRUE, ...)
 {
     cat("\n",file=file,append=append,...)
     if (length(x) > 1)
@@ -1369,7 +1384,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.dummy.coef" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,title="",...)
+"HTML.dummy.coef" <- function (x, file=HTMLGetFile(), append=TRUE,title="",...)
 {
     cat("\n",file=file,append=append,...)
     terms <- names(x)
@@ -1405,7 +1420,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.dummy.coef.list" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.dummy.coef.list" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     for (strata in names(x)) HTML.dummy.coef(x[[strata]], file=file, title = paste("\n<p>     Error:", strata,"</p>"),append=TRUE,...)
@@ -1416,7 +1431,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
  "HTML.glm.null" <- function (x, digits = max(3, getOption("digits") - 3), na.print = "",
-    file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    file=HTMLGetFile(), append=TRUE,...)
 {
 
       cat("\n",file=file,append=append,...)
@@ -1434,7 +1449,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.MethodsFunction"<- function (x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.MethodsFunction"<- function (x,file=HTMLGetFile(), append=TRUE, ...)
 {
     	cat("\n",file=file,append=append,...)
 	info=attr(x,"info")
@@ -1446,7 +1461,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.libraryIQR" <- function (x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.libraryIQR" <- function (x,file=HTMLGetFile(), append=TRUE, ...)
 {
     cat("\n",file=file,append=append,...)
     sQuote <- function(s) paste("`", s, "'", sep = "")
@@ -1470,7 +1485,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.aov" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.aov" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
       cat("\n",file=file,append=append,...)
     if (length(x) == 1)
@@ -1482,7 +1497,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.aovlist" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.aovlist" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     nn <- names(x)
@@ -1497,7 +1512,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.summary.glm.null" <- function (x, digits = max(3, getOption("digits") - 3), na.print = "",
-    file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("\nCall:<font class=call> ",paste(deparse(x$call), sep = "\n", collapse = "\n"),
@@ -1522,7 +1537,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.manova" <- function (x, digits = getOption("digits"),file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.summary.manova" <- function (x, digits = getOption("digits"),file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (length(stats <- x$stats)) {
@@ -1539,7 +1554,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.table" <- function (x, digits = max(1, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.table" <- function (x, digits = max(1, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!inherits(x, "summary.table"))
@@ -1563,7 +1578,7 @@ NextMethod("HTML")
 
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.TukeyHSD" <- function (x, file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.TukeyHSD" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<center><p><b>Tukey multiple comparisons of means</b></p>\n")
@@ -1582,7 +1597,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.simple.list" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.simple.list" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
 	HTML(noquote(cbind("<-" = unlist(x))), file=file,append=TRUE,...)
@@ -1590,7 +1605,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.noquote" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.noquote" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- attr(x, "class"))) {
@@ -1613,7 +1628,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ar" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ar" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Call:\n<font class='call'>", deparse(x$call), "</font>\n", sep = ""),file=file)
@@ -1645,7 +1660,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.Arima" <- function (x, digits = max(3, getOption("digits") - 3), se = TRUE,
-    file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("nCall:<font class='call'>", deparse(x$call, width.cutoff = 75), "</font>", sep = "\n"),file=file)
@@ -1673,7 +1688,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.arima0" <- function (x, digits = max(3, getOption("digits") - 3), se = TRUE,
-    file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("\nCall:<font class='call'>", deparse(x$call, width.cutoff = 75), "</font>", sep = "\n"),file=file)
@@ -1699,7 +1714,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.HoltWinters" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.HoltWinters" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(paste("<p><b>Holt-Winters exponential smoothing", if (x$beta == 0)
@@ -1722,7 +1737,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.stl" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.stl" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Call:\n ",deparse(x$call),"\n<br>"),file=file)
@@ -1733,7 +1748,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.StructTS" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.StructTS" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("\nCall:", deparse(x$call, width.cutoff = 75), "\n", sep = " "),file=file)
@@ -1745,7 +1760,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.tskernel" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.tskernel" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     y <- c(rev(x$coef[2:(x$m + 1)]), x$coef)
@@ -1759,7 +1774,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.pairwise.htest" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.pairwise.htest" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Pairwise comparisons using", x$method, "\n<br>\n<br>"),file=file)
@@ -1772,7 +1787,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.power.htest" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.power.htest" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste(x$method,"<br>"), file=file)
@@ -1788,7 +1803,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.boot" <- function (x, digits = options()$digits, index = 1:ncol(boot.out$t), file=get(".HTML.file", envir=.HTMLEnv),  append=TRUE,...)
+"HTML.boot" <- function (x, digits = options()$digits, index = 1:ncol(boot.out$t), file=HTMLGetFile(),  append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     boot.out <- x
@@ -1952,7 +1967,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.simplex" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.simplex" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     simp.out <- x
@@ -1979,7 +1994,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.saddle.distn" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.saddle.distn" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     sad.d <- x
@@ -2010,7 +2025,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.bootci" <- function (x, hinv = NULL, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.bootci" <- function (x, hinv = NULL, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     ci.out <- x
@@ -2145,7 +2160,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.dist" <- function (x, diag = NULL, upper = NULL, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.dist" <- function (x, diag = NULL, upper = NULL, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (is.null(diag))
@@ -2170,7 +2185,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.factanal" <- function (x, digits = 3, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.factanal" <- function (x, digits = 3, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("\nCall:\n", deparse(x$call), "\n<br>\n", sep = ""),file=file)
@@ -2204,7 +2219,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.loadings" <- function (x, digits = 3, cutoff = 0.1, sort = FALSE, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.loadings" <- function (x, digits = 3, cutoff = 0.1, sort = FALSE, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     Lambda <- unclass(x)
@@ -2237,7 +2252,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.hclust" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.hclust" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(x$call))
@@ -2254,7 +2269,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.prcomp" <- function (x, print.x = FALSE, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.prcomp" <- function (x, print.x = FALSE, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Standard deviations:\n</p>",file=file,append=TRUE)
@@ -2272,7 +2287,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.princomp" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.princomp" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Call: <font class=call>",deparse(x$call),"</font>"),file=file)
@@ -2285,7 +2300,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.prcomp" <- function (x, digits = min(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.prcomp" <- function (x, digits = min(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Importance of components:\n</p>",file=file)
@@ -2296,7 +2311,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.princomp" <- function (x, digits = 3, loadings = x$print.loadings, cutoff = x$cutoff, file=get(".HTML.file", envir=.HTMLEnv), append=TRUE, ...)
+"HTML.summary.princomp" <- function (x, digits = 3, loadings = x$print.loadings, cutoff = x$cutoff, file=HTMLGetFile(), append=TRUE, ...)
 {
     cat("\n",file=file,append=append,...)
     vars <- x$sdev^2
@@ -2318,7 +2333,7 @@ NextMethod("HTML")
 ### PACKAGE EDA (merged into stats)
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.medpolish" <- function (x, digits = getOption("digits"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.medpolish" <- function (x, digits = getOption("digits"), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(paste("\n<p><b>Median Polish Results (Dataset: \"", x$name, "\")\n</b></p>",
@@ -2335,7 +2350,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.tukeyline" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.tukeyline" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Call:\n", deparse(x$call), "\n<br>\n", sep = ""),file=file)
@@ -2347,7 +2362,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.tukeysmooth" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.tukeysmooth" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(paste("<p><b>",attr(x, "kind"), " Tukey smoother resulting from ", deparse(attr(x,
@@ -2372,7 +2387,7 @@ NextMethod("HTML")
 #
 # 2008-05-23: Removed by Fernando H Rosa. Class appears to no longer exist on package stats
 #
-#"HTML.grob" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+#"HTML.grob" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 #{
 #    cat("\n",file=file,append=append,...)
 #    cl <- class(get.value.grob(x))
@@ -2382,7 +2397,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.unit" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.unit" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(as.character(x), file=file)
@@ -2391,7 +2406,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.viewport" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.viewport" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(class(x),file=file)
@@ -2403,7 +2418,7 @@ NextMethod("HTML")
 ### PACKAGE LATTICE
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.shingle" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.shingle" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("\n<p>Data:\n</p>",file=file)
@@ -2436,7 +2451,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.shingleLevel" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+ "HTML.shingleLevel" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(do.call("rbind", x),file=file)
@@ -2449,7 +2464,7 @@ NextMethod("HTML")
 ### PACKAGE MASS
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.abbrev" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.abbrev" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (is.list(x))
@@ -2460,7 +2475,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.Anova" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.Anova" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     heading <- attr(x, "heading")
@@ -2472,7 +2487,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.anova.loglm" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.anova.loglm" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     y <- x
@@ -2496,7 +2511,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.correspondence" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.correspondence" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(paste("<p>First canonical correlation(s):", format(x$cor, ...), "\n</p>"),file=file)
@@ -2511,7 +2526,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.fitdistr" <- function (x, digits = getOption("digits"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.fitdistr" <- function (x, digits = getOption("digits"), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     ans <- format(rbind(x$estimate, x$sd), digits = digits)
@@ -2532,7 +2547,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.fractions" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.fractions" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     y <- attr(x, "fracs")
@@ -2545,7 +2560,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.gamma.shape" <- function (x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.gamma.shape" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     y <- x
@@ -2556,7 +2571,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.glm.dose" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.glm.dose" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     M <- cbind(x, attr(x, "SE"))
@@ -2567,7 +2582,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.lda" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.lda" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2591,7 +2606,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.loglm" <- function (x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.loglm" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("Call: <font class=call>",deparse(x$call),"</font>"),file=file)
@@ -2607,7 +2622,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.mca" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.mca" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) HTMLli(paste("Call: ",deparse(cl)),file=file)
@@ -2624,7 +2639,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.polr" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.polr" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) HTMLli(paste("Call: ",deparse(cl)),file=file)
@@ -2644,7 +2659,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.qda" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.qda" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2660,7 +2675,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ridgelm" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ridgelm" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     scaledcoef <- t(as.matrix(x$coef/x$scales))
@@ -2674,7 +2689,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.rlm" <- function (x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+"HTML.rlm" <- function (x,file=HTMLGetFile(), append=TRUE, ...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2695,7 +2710,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.rms.curv" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.rms.curv" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(paste("<p><li>Parameter effects: c^theta x sqrt(FALSE) =<b>", round(x$pe,
@@ -2706,7 +2721,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.loglm" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.loglm" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Formula:\n</p>",file=file)
@@ -2723,7 +2738,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.negbin" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.negbin" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
 	    cat("\n",file=file,append=append,...)
 	NextMethod(x,file=file)
@@ -2738,7 +2753,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.polr" <- function (x, digits = x$digits, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.polr" <- function (x, digits = x$digits, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2769,7 +2784,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.rlm" <- function (x, digits = max(3, .Options$digits - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.rlm" <- function (x, digits = max(3, .Options$digits - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTMLli(paste("\nCall: ",deparse(x$call)),file=file)
@@ -2818,7 +2833,7 @@ NextMethod("HTML")
 ### PACKAGE NNET
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.multinom" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.multinom" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2834,7 +2849,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.nnet" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.nnet" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!inherits(x, "nnet"))
@@ -2862,7 +2877,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.multinom" <- function (x, digits = x$digits, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.multinom" <- function (x, digits = x$digits, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     if (!is.null(cl <- x$call)) {
@@ -2899,7 +2914,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.nnet" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.nnet" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
      cat("\n",file=file,append=append,...)
      HTML(paste("<p><b>a ", x$n[1], "-", x$n[2], "-", x$n[3], " network with ", length(x$wts), " weights.</b></p>", sep = ""),file=file)
@@ -2926,7 +2941,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
 
-"HTML.agnes" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.agnes" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Merge:\n</p>",file=file)
@@ -2947,7 +2962,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.clara" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.clara" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Best sample:\n</p>",file=file)
@@ -2965,7 +2980,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.diana" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.diana" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Merge:\n</p>",file=file)
@@ -2983,7 +2998,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.dissimilarity" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.dissimilarity" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Dissimilarities :\n</p>",file=file)
@@ -2997,7 +3012,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ellipsoid" <- function (x, digits = max(1, getOption("digits") - 2), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ellipsoid" <- function (x, digits = max(1, getOption("digits") - 2), file=HTMLGetFile(), append=TRUE,...)
 {
 
     cat("\n",file=file,append=append,...)
@@ -3016,7 +3031,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.fanny" <- function (x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.fanny" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(x$objective, file=file,append=TRUE,...)
@@ -3034,7 +3049,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.mona" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.mona" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Revised data:\n</p>",file=file)
@@ -3052,7 +3067,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.pam" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.pam" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Medoids:\n</p>",file=file)
@@ -3068,7 +3083,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.agnes" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.agnes" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Merge:\n</p>",file=file)
@@ -3090,7 +3105,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.clara" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.clara" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Best sample:\n</p>",file=file)
@@ -3120,7 +3135,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.diana" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.diana" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML("<p>Merge:\n</p>",file=file)
@@ -3142,7 +3157,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.summary.fanny" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+ "HTML.summary.fanny" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n",file=file,append=append,...)
     HTML(x$objective, file=file, append=TRUE,...)
@@ -3169,7 +3184,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.mona" <- function(x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.summary.mona" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML.mona(x, file=file, append=TRUE, ...)
@@ -3178,7 +3193,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.pam" <- function(x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.summary.pam" <- function(x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file,append=append,...)
     HTML("<p>Medoids:\n</p>",file=file)
@@ -3215,7 +3230,7 @@ NextMethod("HTML")
 ### PACKAGE MGCV
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.gam" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.gam" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML(x$family,file=file)
@@ -3233,7 +3248,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.gam" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.gam" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML(x$family,file=file)
@@ -3281,7 +3296,7 @@ NextMethod("HTML")
 
 
 "HTML.rpart" <- function (x, minlength = 0, spaces = 2, cp, digits = getOption("digits"),
-    file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     if (!inherits(x, "rpart"))
@@ -3335,7 +3350,7 @@ NextMethod("HTML")
 ### PACKAGE MODREG
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.loess" <- function (x, digits = max(3, getOption("digits") - 3),file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.loess" <- function (x, digits = max(3, getOption("digits") - 3),file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     if (!is.null(cl <- x$call)) HTMLli(paste("Call: ",paste(deparse(cl),collapse=" ")),file=file)
@@ -3350,7 +3365,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ppr" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ppr" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     if (!is.null(cl <- x$call)) HTMLli(paste("Call:",paste(deparse(cl),collapse=" ")),file=file)
@@ -3366,7 +3381,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.smooth.spline" <- function (x, digits = getOption("digits"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.smooth.spline" <- function (x, digits = getOption("digits"), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     if (!is.null(cl <- x$call)) HTMLli(paste("Call:",paste(deparse(cl),collapse=" ")),file=file)
@@ -3390,7 +3405,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.loess" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.loess" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
    if (!is.null(cl <- x$call)) HTMLli(paste("Call:",paste(deparse(cl),collapse=" ")),file=file)
@@ -3417,7 +3432,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.summary.ppr" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.summary.ppr" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML.ppr(x,file=file, ...)
@@ -3442,7 +3457,7 @@ NextMethod("HTML")
 
 
 
-"HTML.bSpline" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.bSpline" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     value <- c(rep(NA, splines::splineOrder(x)), coef(x))
@@ -3455,7 +3470,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.polySpline" <- function (x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.polySpline" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     coeff <- coef(x)
@@ -3471,7 +3486,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ppolySpline" <- function (x,file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+"HTML.ppolySpline" <- function (x,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML("<p>periodic </p>",file=file)
@@ -3486,7 +3501,7 @@ NextMethod("HTML")
 ### PACKAGE LSQ
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.lqs" <- function (x, digits = max(3, getOption("digits") - 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.lqs" <- function (x, digits = max(3, getOption("digits") - 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
 	if (!is.null(cl <- x$call)) HTMLli(paste("Call:",paste(deparse(cl),collapse=" ")),file=file)
@@ -3503,7 +3518,7 @@ NextMethod("HTML")
 ### PACKAGE NLS
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.nls" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.nls" <- function (x, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML("<p><b>Nonlinear regression model\n</b></p>",file=file)
@@ -3518,7 +3533,7 @@ NextMethod("HTML")
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.summary.nls" <- function (x, digits = max(3, getOption("digits") - 3), symbolic.cor = p >
-    4, signif.stars = getOption("show.signif.stars"), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+    4, signif.stars = getOption("show.signif.stars"), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     HTML(paste("<p>Formula:",paste(deparse(x$formula), collapse = " "),"</p>"),file=file)
@@ -3551,7 +3566,7 @@ NextMethod("HTML")
 ### PACKAGE STEPFUN
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.ecdf" <- function (x, digits = getOption("digits") - 2, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.ecdf" <- function (x, digits = getOption("digits") - 2, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     numform <- function(x) paste(formatC(x, digits = digits), collapse = ", ")
@@ -3570,7 +3585,7 @@ NextMethod("HTML")
 
 #----------------------------------------------------------------------------------------------------#
 
- "HTML.stepfun" <- function (x, digits = getOption("digits") - 2, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+ "HTML.stepfun" <- function (x, digits = getOption("digits") - 2, file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     numform <- function(x) paste(formatC(x, digits = digits), collapse = ", ")
@@ -3596,12 +3611,12 @@ NextMethod("HTML")
 ### PACKAGE SURVIVAL
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.cox.zph" <- function (x, digits = max(options()$digits - 4, 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.cox.zph" <- function (x, digits = max(options()$digits - 4, 3), file=HTMLGetFile(), append=TRUE,...)
 HTML(x$table, file=file,append=append,...)
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.coxph.null" <- function (x, digits = max(options()$digits - 4, 3), file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTML.coxph.null" <- function (x, digits = max(options()$digits - 4, 3), file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
 	if (!is.null(cl <- x$call)) HTMLli(paste("Call:",paste(deparse(cl),collapse=" ")),file=file)
@@ -3615,7 +3630,7 @@ HTML(x$table, file=file,append=append,...)
 ### XTABLE
 #----------------------------------------------------------------------------------------------------#
 
-"HTML.xtable" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...){
+"HTML.xtable" <- function(x,file=HTMLGetFile(), append=TRUE,...){
     cat("\n", file=file, append=append,...)
     cat(capture.output(print(x,type="html")),file=file,append=TRUE,sep="\n")
 }
@@ -3627,7 +3642,7 @@ HTML(x$table, file=file,append=append,...)
 #----------------------------------------------------------------------------------------------------#
 
 "HTML.title"<-
-function(x, HR = 2,CSSclass=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, ...)
+function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
 {
 	cat(paste("\n <h", HR, if(!is.null(CSSclass)) paste(" class=",CSSclass,sep="") ," > ", x, "</h", HR, ">\n", sep =
 		""), file = file, append=append, sep = "")
@@ -3635,26 +3650,26 @@ function(x, HR = 2,CSSclass=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=T
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLstem" <- function (x, file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)  HTML(paste("<pre>",paste(capture.output(stem(x)),collapse="<br>"),"</pre>"), file=file,append=append,...)
+"HTMLstem" <- function (x, file=HTMLGetFile(), append=TRUE,...)  HTML(paste("<pre>",paste(capture.output(stem(x)),collapse="<br>"),"</pre>"), file=file,append=append,...)
 
 
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLbr"<- function(x=1,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE) { cat(paste("\n",rep("<br>&nbsp;",x),"\n",sep=""), append=append, file = file)}
+"HTMLbr"<- function(x=1,file=HTMLGetFile(), append=TRUE) { cat(paste("\n",rep("<br>&nbsp;",x),"\n",sep=""), append=append, file = file)}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLhr"<- function(file=get(".HTML.file", envir=.HTMLEnv), Width = "100%", Size = "1",CSSclass=NULL,append=TRUE){ cat(paste("\n<hr ", ifelse(!is.null(CSSclass),paste("class=",CSSclass,sep=""),""), " width=", Width, " size=", Size, ">", sep = ""), file = file, append=append, sep = "")}
+"HTMLhr"<- function(file=HTMLGetFile(), Width = "100%", Size = "1",CSSclass=NULL,append=TRUE){ cat(paste("\n<hr ", ifelse(!is.null(CSSclass),paste("class=",CSSclass,sep=""),""), " width=", Width, " size=", Size, ">", sep = ""), file = file, append=append, sep = "")}
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLli"<- function(txt="", file=get(".HTML.file", envir=.HTMLEnv),append=TRUE) { cat(paste("\n<br><li>", txt, sep = ""), sep = "", append=append, file = file)}
+"HTMLli"<- function(txt="", file=HTMLGetFile(), append=TRUE) { cat(paste("\n<br><li>", txt, sep = ""), sep = "", append=append, file = file)}
 
 #----------------------------------------------------------------------------------------------------#
 
 
-"HTMLplot" <- function (Caption = "", file=get(".HTML.file", envir=.HTMLEnv),append=TRUE, GraphDirectory = ".",
+"HTMLplot" <- function (Caption = "", file=HTMLGetFile(), append=TRUE, GraphDirectory = ".",
     GraphFileName = "", GraphSaveAs = "png", GraphBorder = 1, Align = "center",
     Width=500,Height=500,WidthHTML=NULL,HeightHTML=NULL,
     GraphPointSize=12,GraphBackGround="white",GraphRes=72,plotFunction=NULL,...)
@@ -3733,7 +3748,7 @@ function(x, HR = 2,CSSclass=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=T
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLInsertGraph" <- function(GraphFileName="",Caption="",GraphBorder=1,Align="center",WidthHTML=500,HeightHTML=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,...)
+"HTMLInsertGraph" <- function(GraphFileName="",Caption="",GraphBorder=1,Align="center",WidthHTML=500,HeightHTML=NULL,file=HTMLGetFile(), append=TRUE,...)
 {
     cat("\n", file=file, append=append,...)
     cat(paste("<p align=", Align, "><img src='", GraphFileName, "' border=", GraphBorder, if (!is.null(WidthHTML)) paste(" width=",WidthHTML,sep="") else "",if (!is.null(HeightHTML)) paste(" height=",HeightHTML,sep="") else "",">", sep = "", collapse = ""),         file = file, append=TRUE, sep = "")
@@ -3744,7 +3759,7 @@ function(x, HR = 2,CSSclass=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=T
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLCSS" <- function(file=get(".HTML.file", envir=.HTMLEnv),append=TRUE,CSSfile="R2HTML.css")
+"HTMLCSS" <- function(file=HTMLGetFile(), append=TRUE,CSSfile="R2HTML.css")
 {
 
   cat(paste("\n<link rel=stylesheet type=text/css href=",CSSfile,">\n",sep=""),file=file,append=append)
@@ -3767,7 +3782,7 @@ function(x, HR = 2,CSSclass=NULL,file=get(".HTML.file", envir=.HTMLEnv),append=T
 }
 
 
-"HTMLCommand" <- function(x,file=get(".HTML.file", envir=.HTMLEnv),Num="",menu=FALSE,target="index<-main.html",append=TRUE,...)
+"HTMLCommand" <- function(x,file=HTMLGetFile(),Num="",menu=FALSE,target="index<-main.html",append=TRUE,...)
 	{
 	cat("\n",file=file,append=append,...)
 	if (menu==TRUE)
@@ -3805,7 +3820,7 @@ function(Vec, Replace = " ")
 
 
 #----------------------------------------------------------------------------------------------------#
-"HTML.cormat" <- function(x, file=get(".HTML.file", envir=.HTMLEnv),  digits=2,append=TRUE,align="center",caption="",captionalign="bottom",classcaption="captiondataframe",classtable="cormat",useCSS=TRUE,...)
+"HTML.cormat" <- function(x, file=HTMLGetFile(),  digits=2,append=TRUE,align="center",caption="",captionalign="bottom",classcaption="captiondataframe",classtable="cormat",useCSS=TRUE,...)
 {
 	cat("\n", file=file,append=append)
 	x<-as.matrix(x)
@@ -3869,12 +3884,12 @@ function(x)
 		file.copy(file.path(tempdir(),'R2HTML.css'), file.path(outdir,'R2HTML.css'))
 		file.copy(file.path(tempdir(),'R2HTMLlogo.gif'), file.path(outdir,'R2HTMLlogo.gif'))
 	}
-	assign("oldprompt",getOption("prompt"),envir=.HTMLEnv)
-	assign("HTMLframe",HTMLframe,envir=.HTMLEnv)
-	assign(".HTML.outdir",outdir,envir=.HTMLEnv)
-	assign("HTMLtorefresh",file.path(outdir,paste(filename,extension,sep=".")),envir=.HTMLEnv)
+	assign("oldprompt",getOption("prompt"),envir=.HTMLTmpEnv)
+	assign("HTMLframe",HTMLframe,envir=.HTMLTmpEnv)
+	assign(".HTML.outdir",outdir,envir=.HTMLTmpEnv)
+	assign("HTMLtorefresh",file.path(outdir,paste(filename,extension,sep=".")),envir=.HTMLTmpEnv)
 	options(prompt=withprompt)
-	assign(".HTML.graph",FALSE,envir =.HTMLEnv)
+	assign(".HTML.graph",FALSE,envir =.HTMLTmpEnv)
 
 	# Creation of required HTML files
 
@@ -3893,10 +3908,10 @@ function(x)
 
 			ToPrint<-TRUE
 
-			if (get(".HTML.graph",envir=.HTMLEnv)==TRUE)
+			if (get(".HTML.graph",envir=.HTMLTmpEnv)==TRUE)
 				{
 					ToPrint <- FALSE
-					assign(".HTML.graph",FALSE,envir=.HTMLEnv)
+					assign(".HTML.graph",FALSE,envir=.HTMLTmpEnv)
 				}
 			else
 				{
@@ -3910,7 +3925,7 @@ function(x)
 				}
 		}
 
-		if (autobrowse) browseURL(url=get("HTMLtorefresh",envir=.HTMLEnv))
+		if (autobrowse) browseURL(url=get("HTMLtorefresh",envir=.HTMLTmpEnv))
 		invisible(return(TRUE))
 		}
 	}
@@ -4001,7 +4016,7 @@ else	{
 
 #----------------------------------------------------------------------------------------------------#
 
-"HTMLEndFile"<- function(file=get(".HTML.file", envir=.HTMLEnv))
+"HTMLEndFile"<- function(file=HTMLGetFile())
 {
 	cat("\n<hr size=1>\n<font size=-1>\n\t Generated on: <i>", date(),
 		"</i> - <b>R2HTML</b> \n<hr size=1>\n\t</body>\n</html>",
@@ -4014,9 +4029,9 @@ else	{
 "HTMLStop"<-function()
 {
 	invisible(removeTaskCallback("HTML"))
-	options(prompt=get("oldprompt",envir=.HTMLEnv))
-	.tmp=get(".HTML.file",envir=.HTMLEnv)
-	HTMLEndFile(file=get(".HTML.file",envir=.HTMLEnv))
+	options(prompt=get("oldprompt",envir=.HTMLTmpEnv))
+	.tmp=get(".HTML.file",envir=.HTMLTmpEnv)
+	HTMLEndFile(file=get(".HTML.file",envir=.HTMLTmpEnv))
 	invisible(return(.tmp))
 }
 

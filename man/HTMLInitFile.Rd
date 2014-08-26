@@ -1,17 +1,23 @@
 \name{HTMLInitFile}
 \alias{HTMLInitFile}
 \alias{HTMLEndFile}
+\alias{HTMLSetFile}
+\alias{HTMLGetFile}
 
 \title{ Begins / Ends a new HTML report output }
 \description{
-  Those two functions handle the beginning and the ending of a HTML report, by writing the HTML <body><head><title></title></head>...</body> tags and their options. When working manually, the user may need to use it's own functions or to explicitly write to a file using cat("", file=).
+  \code{HTMLInitFile} handles the beginning and \code{HTMLEndFile} the ending of a HTML report, by writing the HTML <body><head><title></title></head>...</body> tags and their options. When working manually, the user may need to use it's own functions or to explicitly write to a file using cat("", file=).
+
+  \code{HTMLInitFile} and \code{HTMLSetFile} sets the default file path to be used by \code{HTML} functions, and \code{HTMLGetFile} retrieves it.
 }
 
 \usage{
 HTMLInitFile(outdir = tempdir(), filename="index", extension="html",
 HTMLframe=FALSE, BackGroundColor = "FFFFFF", BackGroundImg = "",
 Title = "R output", CSSFile="R2HTML.css", useLaTeX=TRUE, useGrid=TRUE)
-HTMLEndFile(file = get(".HTML.file", envir=.HTMLEnv))
+HTMLEndFile(file = HTMLGetFile())
+HTMLSetFile(file)
+HTMLGetFile()
 }
 
 
@@ -27,15 +33,13 @@ HTMLEndFile(file = get(".HTML.file", envir=.HTMLEnv))
   \item{CSSFile}{ path and name of a CSS file to use }
   \item{useLaTeX}{ boolean - add required references to javascript AsciiMathML in order to use \code{as.latex}}
   \item{useGrid}{ boolean - add required references to javascript grid in order to use R2HTML grid fonctions}
-  \item{file}{target HTML file to end}
+  \item{file}{target HTML file to set as default or to end}
 }
 
 \value{
 	physical path of the main HTML file that will serve for the report.
 }
 \author{ Eric Lecoutre }
-
-\note{ For a discussion about .HTML.file default value for file argument, refer to \code{\link{HTMLStart}} }
 
 \seealso{  \code{\link{HTML}}, \code{\link{as.latex}}, \code{\link{HTMLgrid}}}
 

@@ -78,7 +78,7 @@
 
 "HTMLgrid" <- function(
     x, 
-    file = get(".HTML.file", envir=.HTMLEnv), 
+    file = HTMLGetFile(), 
     append=TRUE ,
     includeref=FALSE,
     align="center", 
@@ -147,7 +147,7 @@
 
 "HTMLgrid_inline" <- function(
    x,
-   file = get(".HTML.file", envir=.HTMLEnv),
+   file = HTMLGetFile(),
    append=TRUE ,
    includeref=FALSE,
    align="center",

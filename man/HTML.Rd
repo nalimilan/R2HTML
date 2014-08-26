@@ -168,17 +168,17 @@ HTML(x, ...)
   \item{\dots}{ ...}
 }
 \details{
- \code{HTML} function acts like \code{cat}, with a \code{file} argument, which has to be used and a \code{append} argument, which is set by default to TRUE. A convenient default value for \code{file} argument is set to hidden variable \code{.HTML.file}, so that one may begin to set this variable and omit the argument thereafter.
+ \code{HTML} function acts like \code{cat}, with a \code{file} argument, which has to be used and a \code{append} argument,
+ which is set by default to TRUE. A convenient default value for \code{file} argument can be set by calling
+ \code{\link{HTMLInitFile}} or \code{\link{HTMLSetFile}}, so that one may begin to set this variable and omit the argument thereafter.
  Most of the current classes are handled by \code{HTML} function. Some specific methods such as \code{HTML.matrix} or \code{HTML.data.frame} do own a lot of arguments to specify the way the data are exported.
 }
 \value{
-	no value returned.  
+	no value returned.
 }
 \author{ Eric Lecoutre }
 
-\note{ For a discussion about .HTML.file default value for file argument, refer to \code{\link{HTMLStart}} }
-
-\seealso{\code{\link{HTML.data.frame}},\code{\link{HTML.function}},  \code{\link{HTMLStart}}}
+\seealso{\code{\link{HTML.data.frame}},\code{\link{HTML.function}}, \code{\link{HTMLInitFile}}, \code{\link{HTMLStart}}}
 
 \examples{
 dir.create(file.path(tempdir(),"R2HTML"))

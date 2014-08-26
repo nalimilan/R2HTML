@@ -11,14 +11,14 @@
 
 
 \usage{
-HTMLgrid(x, file = get(".HTML.file", envir=.HTMLEnv), append = TRUE,
+HTMLgrid(x, file = HTMLGetFile(), append = TRUE,
 includeref = FALSE, align = "center", digits = getOption("R2HTML.format.digits"),
 nsmall = getOption("R2HTML.format.nsmall"),
 big.mark = getOption("R2HTML.format.big.mark"),
 big.interval = getOption("R2HTML.format.big.interval"),
 decimal.mark = getOption("R2HTML.format.decimal.mark"),
 asDF = TRUE, browse = FALSE, classes = NULL, showimages = TRUE)
-HTMLgrid_inline(x,file = get(".HTML.file", envir=.HTMLEnv), append=TRUE,
+HTMLgrid_inline(x,file = HTMLGetFile(), append=TRUE,
 includeref=FALSE, align="center", digits=getOption("R2HTML.format.digits"),
 nsmall = getOption("R2HTML.format.nsmall"),
 big.mark = getOption("R2HTML.format.big.mark"),

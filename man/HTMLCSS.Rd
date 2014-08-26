@@ -6,7 +6,7 @@
   Allow to use CSS file in a report
 }
 \usage{
-HTMLCSS(file = get(".HTML.file", envir=.HTMLEnv), append = TRUE, CSSfile = "R2HTML.css")
+HTMLCSS(file = HTMLGetFile(), append = TRUE, CSSfile = "R2HTML.css")
 }
 
 \arguments{

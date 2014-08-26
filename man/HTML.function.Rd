@@ -5,7 +5,7 @@
 \description{
   Writes the code of a function to a target HTML file 
 }
-\usage{\method{HTML}{function}(x, file = get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+\usage{\method{HTML}{function}(x, file = HTMLGetFile(), append=TRUE,...)
 }
 
 \arguments{

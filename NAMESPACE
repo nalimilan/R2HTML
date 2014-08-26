@@ -1,6 +1,8 @@
 import(graphics,utils)
 
 export(HTML,
+       HTMLSetFile,
+       HTMLGetFile,
        HTML.title,
        HTMLstem,
        HTMLbr,

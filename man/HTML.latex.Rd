@@ -9,7 +9,7 @@
 \usage{
 as.latex(x, label=NULL,
 inline=ifelse(is.null(label), TRUE, FALSE), count=ifelse(is.null(label), FALSE, TRUE))
-\method{HTML}{latex}(x, file = get(".HTML.file", envir=.HTMLEnv), ...)
+\method{HTML}{latex}(x, file = HTMLGetFile(), ...)
 }
 
 \arguments{

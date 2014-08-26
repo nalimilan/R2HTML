@@ -8,9 +8,9 @@
   Write <br>, <li> and <hr> tags, which are often used, to an output file.
 }
 \usage{
-HTMLbr(x=1, file = get(".HTML.file", envir=.HTMLEnv), append=TRUE)
-HTMLli(txt="", file = get(".HTML.file", envir=.HTMLEnv), append=TRUE)
-HTMLhr(file = get(".HTML.file", envir=.HTMLEnv), Width = "100\%", Size = "1",
+HTMLbr(x=1, file = HTMLGetFile(), append=TRUE)
+HTMLli(txt="", file = HTMLGetFile(), append=TRUE)
+HTMLhr(file = HTMLGetFile(), Width = "100\%", Size = "1",
 CSSclass=NULL, append=TRUE)
 }
 

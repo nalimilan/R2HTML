@@ -7,7 +7,7 @@
   It is documented as a regular S3 method for technical reasons. Contrary to the signature shown, below, you will call it as \code{HTML.cormat}, explicitly, as shown in the examples.
 }
 \usage{
-\method{HTML}{cormat}(x, file = get(".HTML.file", envir=.HTMLEnv),
+\method{HTML}{cormat}(x, file = HTMLGetFile(),
 digits = 2, append = TRUE, align = "center",
 caption = "", captionalign = "bottom",
 classcaption = "captiondataframe", classtable = "cormat", useCSS = TRUE, ...)

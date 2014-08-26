@@ -6,7 +6,7 @@
   Exports the active graphic to a JPEG or GIF file and add it to a target HTML output, by writing the <IMG> tag.
 }
 \usage{
-HTMLplot(Caption = "", file = get(".HTML.file", envir=.HTMLEnv), append = TRUE,
+HTMLplot(Caption = "", file = HTMLGetFile(), append = TRUE,
 GraphDirectory = ".", GraphFileName = "", GraphSaveAs = "png", GraphBorder = 1,
 Align = "center", Width = 500, Height = 500, WidthHTML = NULL, HeightHTML = NULL,
 GraphPointSize = 12, GraphBackGround = "white", GraphRes = 72, plotFunction = NULL, ...)

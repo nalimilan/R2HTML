@@ -8,7 +8,7 @@
 \usage{
 HTMLInsertGraph(GraphFileName="", Caption="", GraphBorder=1,
 Align="center", WidthHTML=500, HeightHTML=NULL,
-file=get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+file=HTMLGetFile(), append=TRUE,...)
 }
 
 \arguments{

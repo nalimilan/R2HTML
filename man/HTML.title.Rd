@@ -8,7 +8,7 @@
 }
 \usage{
 \method{HTML}{title}(x, HR = 2, CSSclass=NULL,
-file = get(".HTML.file", envir=.HTMLEnv), append=TRUE,...)
+file = HTMLGetFile(), append=TRUE,...)
 as.title(x)
 }
 

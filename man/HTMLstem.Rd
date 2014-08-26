@@ -6,7 +6,7 @@
   Insert a stem-and-leaf plot in the HTML output.
 }
 \usage{
-HTMLstem(x, file = get(".HTML.file", envir=.HTMLEnv), append = TRUE, ...)
+HTMLstem(x, file = HTMLGetFile(), append = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

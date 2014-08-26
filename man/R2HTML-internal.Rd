@@ -6,7 +6,7 @@
 \description{   Internal R2HTML functions}
 \usage{
 HTMLReplaceNA(Vec, Replace = " ")
-HTMLCommand(x, file = get(".HTML.file", envir=.HTMLEnv),
+HTMLCommand(x, file = HTMLGetFile(),
 Num = "", menu = FALSE, target= "index<-main.html", append = TRUE, ...)
 HTMLcode(x,...)
 }
