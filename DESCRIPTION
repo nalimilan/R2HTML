@@ -1,6 +1,6 @@
 Package: R2HTML
-Version: 2.2.1
-Date: 2010-03-12
+Version: 2.3
+Date: 2014-08-26
 Title: HTML exportation for R objects
 Authors@R: c(person("Eric", "Lecoutre", email="eric.lecoutre@gmail.com",
                     role=c("aut")),
