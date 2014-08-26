@@ -35,12 +35,7 @@ The user may need to know the following points which describe how R2HTML does wo
 
 - Each parsed command is evaluated and the returned value is passed to the generic function HTML. This evaluation is assured by addTaskCallback function, which is used to add a specific task each time R has to parse an expression. 
 
-- A new environment called HTMLenv is build, where internal variables such as physical path are stored. This environment is not visible by the user. It is destroyed when calling \code{HTMLStop}.
-
-- Inside the HTMLenv environment, a special variable may be of interest: \code{.HTML.file}, which contains the path to the default HTML target file. User should modify this variable, at his own risks.
-
-- For internal uses, functions \code{fix} and \code{plot.new} are temporary replaced, by assigning them in your primary environment. Those copies are deleted when calling \code{HTMLStop}. If you close your session before calling \code{HTMLStop}, you will have to erase those function manually. If not, you may encounter troubles when editing a function or making a graph, as R2HTML functions refer to the environment HTMLenv...
-
+- A new environment is built, where internal variables such as physical path are stored. This environment is not visible by the user. It is destroyed when calling \code{HTMLStop}.
 
 }
 \value{

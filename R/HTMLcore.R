@@ -3742,7 +3742,7 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
         cat(paste("<br><font class=caption>", Caption, "</font>"), file = file, append=TRUE, sep = "")
     }
     cat("</p>", file = file, append=TRUE, sep = "\n")
-    if (substitute(file)==".HTML.file") try(assign(".HTML.graph", TRUE, envir = .HTMLEnv))
+    if (substitute(file)=="HTMLGetFile()") try(assign(".HTML.graph", TRUE, envir = .HTMLEnv))
     invisible(return(TRUE))
 }
 
@@ -3770,7 +3770,8 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
 #----------------------------------------------------------------------------------------------------#
 "HTMLChangeCSS" <- function(newCSS="R2HTML",from=NULL){
 	target=getwd()
-    target=file.path(get(".HTML.outdir",envir=.HTMLEnv))
+	if(exists(".HTMLTmpEnv", .HTMLEnv))
+        target=file.path(get(".HTML.outdir",envir=get(".HTMLTmpEnv", .HTMLEnv)))
 	if (is.null(from)){
 ##		from=file.path(.find.package(package = "R2HTML"),"output")
                 from=system.file(package = "R2HTML","output")
@@ -3884,6 +3885,8 @@ function(x)
 		file.copy(file.path(tempdir(),'R2HTML.css'), file.path(outdir,'R2HTML.css'))
 		file.copy(file.path(tempdir(),'R2HTMLlogo.gif'), file.path(outdir,'R2HTMLlogo.gif'))
 	}
+	.HTMLTmpEnv <- new.env(parent=.GlobalEnv)
+	assign(".HTMLTmpEnv",.HTMLTmpEnv,envir=.HTMLEnv)
 	assign("oldprompt",getOption("prompt"),envir=.HTMLTmpEnv)
 	assign("HTMLframe",HTMLframe,envir=.HTMLTmpEnv)
 	assign(".HTML.outdir",outdir,envir=.HTMLTmpEnv)
@@ -3894,6 +3897,7 @@ function(x)
 	# Creation of required HTML files
 
 	try(.HTML.file <- HTMLInitFile(outdir = outdir,filename=filename,extension=extension,HTMLframe=HTMLframe, BackGroundColor = BackGroundColor, BackGroundImg = BackGroundImg, Title = Title,CSSFile=CSSFile,useLaTeX=TRUE))
+	assign(".HTML.file", .HTML.file, .HTMLTmpEnv)
 
 
 	ToHTML <- function(file,echo,HTMLframe,HTMLMenuFile,target,outdir)
@@ -4029,9 +4033,11 @@ else	{
 "HTMLStop"<-function()
 {
 	invisible(removeTaskCallback("HTML"))
+	.HTMLTmpEnv <- get(".HTMLTmpEnv", envir=.HTMLEnv)
 	options(prompt=get("oldprompt",envir=.HTMLTmpEnv))
 	.tmp=get(".HTML.file",envir=.HTMLTmpEnv)
 	HTMLEndFile(file=get(".HTML.file",envir=.HTMLTmpEnv))
+	assign(".HTMLTmpEnv", NULL, envir=.HTMLEnv)
 	invisible(return(.tmp))
 }
 
