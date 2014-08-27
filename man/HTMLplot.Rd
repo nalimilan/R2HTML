@@ -16,7 +16,7 @@ GraphPointSize = 12, GraphBackGround = "white", GraphRes = 72, plotFunction = NU
   \item{Caption}{text to be placed below the graphic, as a caption}
   \item{file}{ the target HTML file }
   \item{append}{ logical. If 'TRUE' output will be appended to 'file'; otherwise, it will overwrite the contents of 'file'}
-  \item{GraphDirectory}{ path where file should be stored }
+  \item{GraphDirectory}{ path where file should be stored; ignore in a \code{HTMLStart}/\code{HTMLStop} session }
   \item{GraphFileName}{ name of the file to produce (could be missing) }
   \item{GraphSaveAs}{ an existing exportation device, such as jpg or gif }
   \item{GraphBorder}{ HTML border option for the <IMG> tag }
@@ -39,7 +39,6 @@ Note that this function is coded to work automatically when using automatic expo
 }
 
 \author{ Eric Lecoutre }
-\note{ For a discussion about .HTML.outdir and HTLMenv, refer to \code{\link{HTMLStart}} }
 
 \seealso{ \code{\link{HTMLStart}}, \code{\link{HTMLInsertGraph}}}
 

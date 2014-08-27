@@ -3677,7 +3677,10 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
 ## New version with code submitted by James Wettenhall <wettenhall@wehi.edu.au>
 ## Change  plotFunction by plotExpression...
 
-    GraphDirectory=get(".HTML.outdir", envir=.HTMLEnv)
+    if (exists(".HTMLTmpEnv", where=".HTMLEnv"))
+    {
+       GraphDirectory <- get(".HTML.outdir", envir=get(".HTMLTmpEnv", envir=.HTMLEnv))
+    }
 
     cat("\n", file=file, append=append,...)
     if (GraphFileName == "") {
@@ -3772,6 +3775,7 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
 	target=getwd()
 	if(exists(".HTMLTmpEnv", .HTMLEnv))
         target=file.path(get(".HTML.outdir",envir=get(".HTMLTmpEnv", .HTMLEnv)))
+
 	if (is.null(from)){
 ##		from=file.path(.find.package(package = "R2HTML"),"output")
                 from=system.file(package = "R2HTML","output")
