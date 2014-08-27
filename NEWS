@@ -1,3 +1,13 @@
+# 2014-08-26 - Version 2.3
+- API BREAK: Make package conform to new CRAN policies.
+- .HTML.file is no longer stored in the global environment:
+  use HTMLSetFile() and HTMLGetFile() instead of modifying it directly.
+- .HTMLenv is no longer stored in the global environment:
+  it should never have been accesses directly in the first place.
+- fix() is no longer replaced during HTMLStart()/HTMLStop() sessions.
+- Remove obsolete handling of 'date' class from package survival.
+- Remove obsolete support for old format of objects from the rpart package.
+
 # 2010-10-04
 - Correction of a minor bug in HTMLInitFile discovered by Benoît Beck
 
