@@ -3,7 +3,7 @@
 - .HTML.file is no longer stored in the global environment:
   use HTMLSetFile() and HTMLGetFile() instead of modifying it directly.
 - .HTMLenv is no longer stored in the global environment:
-  it should never have been accesses directly in the first place.
+  it should never have been accessed directly in the first place.
 - fix() is no longer replaced during HTMLStart()/HTMLStop() sessions.
 - Remove obsolete handling of 'date' class from package survival.
 - Remove obsolete support for old format of objects from the rpart package.
