@@ -1,4 +1,4 @@
-# 2014-08-26 - Version 2.3
+# 2014-09-06 - Version 2.3
 - API BREAK: Make package conform to new CRAN policies.
 - .HTML.file is no longer stored in the global environment:
   use HTMLSetFile() and HTMLGetFile() instead of modifying it directly.
