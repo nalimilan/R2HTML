@@ -3677,7 +3677,7 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
 ## New version with code submitted by James Wettenhall <wettenhall@wehi.edu.au>
 ## Change  plotFunction by plotExpression...
 
-    if (exists(".HTMLTmpEnv", where=".HTMLEnv"))
+    if (exists(".HTMLTmpEnv", where=.HTMLEnv))
     {
        GraphDirectory <- get(".HTML.outdir", envir=get(".HTMLTmpEnv", envir=.HTMLEnv))
     }
@@ -4041,7 +4041,7 @@ else	{
 	options(prompt=get("oldprompt",envir=.HTMLTmpEnv))
 	.tmp=get(".HTML.file",envir=.HTMLTmpEnv)
 	HTMLEndFile(file=get(".HTML.file",envir=.HTMLTmpEnv))
-	assign(".HTMLTmpEnv", NULL, envir=.HTMLEnv)
+	rm(".HTMLTmpEnv", envir=.HTMLEnv)
 	invisible(return(.tmp))
 }
 
