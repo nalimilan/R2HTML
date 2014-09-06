@@ -2931,7 +2931,7 @@ NextMethod("HTML")
             HTMLli(" softmax modelling ",file=file)
         if (x$decay[1] > 0)
         HTMLli(paste(" decay=", x$decay[1], sep = ""),file=file)
-    wts <- format(round(nnet(x), 2))
+    wts <- format(round(nnet::nnet(x), 2))
     lapply(split(wts, rep(1:x$nunits, tconn)), function(x) HTML(x,file=file))
     invisible(x)
 }
