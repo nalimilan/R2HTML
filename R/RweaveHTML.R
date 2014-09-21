@@ -154,7 +154,7 @@
 
             #err <- try({utils:::SweaveHooks(options, run=TRUE);
             err <- try({SweaveHooks(options, run=TRUE);
-                        eval(chunkexps, envir=.HTMLEnv)})
+                        eval(chunkexps, envir=.GlobalEnv)})
             dev.off()
             if(inherits(err, "try-error")) stop(err)
         }
@@ -224,7 +224,7 @@
                       cmdloc+attr(cmdloc, "match.length")-1)
         cmd <- sub(object$syntax$docexpr, "\\1", cmd)
         if(object$options$eval)
-            val <- as.character(eval(parse(text=cmd), envir=.HTMLEnv))
+            val <- as.character(eval(parse(text=cmd), envir=.GlobalEnv))
         else
             val <- paste("<font class='Rcmd'>", cmd, "</font>", sep="")
 
