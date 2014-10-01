@@ -1,4 +1,5 @@
 # 2014-09-21 - Version 2.3.1
+- Fixed message "Warning in formatC(Signif) : class of 'x' was discarded"
 - Fixed problem looking up objects in Sweave. R Code inside
   Sweave files is now evaluated in .GlobalEnv, again, as
   before version 2.3.0.
