@@ -821,7 +821,7 @@ function(x, file=HTMLGetFile(), append=TRUE,...)
               dimnames(x)[[1]][i],
               HTMLReplaceNA(x.formatted[i,]))
          VecFin <- c(if(is.null(dimnames(x)[[1]]) == FALSE) "</td>",
-            rep("</td>", dim(x)[2] - 1), "</td></tr>\n")
+            rep("</td>", dim(x)[2] - 1), "</td>")
       }
       else {
          VecDebut <- c(if(is.null(dimnames(x)[[1]]) == FALSE) paste(
@@ -832,9 +832,9 @@ function(x, file=HTMLGetFile(), append=TRUE,...)
               dimnames(x)[[1]][i],
               HTMLReplaceNA(x.formatted[i,]))
          VecFin <- c(if(is.null(dimnames(x)[[1]]) == FALSE) "</td>",
-            rep("</td>", dim(x)[2] - 1), "</td></tr>\n")
+            rep("</td>", dim(x)[2] - 1), "</td>")
       }
-      txt <- paste(txt, paste(VecDebut, VecMilieu, VecFin, sep = "",collapse = ""))
+      txt <- paste(txt, "<tr>", paste(VecDebut, VecMilieu, VecFin, sep = "",collapse = ""), "</tr>\n")
    }
    txt <- paste(txt, "\n\t</tbody>\n</table>\n",if (!is.null(Border)) "</td></table>\n","<br>")
    cat(txt, "\n", file = file, sep = "", append=TRUE)
