@@ -986,7 +986,7 @@ function(x, a = attributes(x), prefix = "", file=HTMLGetFile(), append=TRUE, ...
             }
             else rn <- "Sum of Squares"
             dimnames(tmp) <- list(c(rn, "Deg. of Freedom"), "Residuals")
-            HTML(as.data.frame(tmp), file=file,..)
+            HTML(as.data.frame(tmp), file=file,...)
             HTMLli(paste("Residual standard error:", paste(sapply(sqrt(ss/rdf),format),collapse=" "), "\n"),file=file)
         }
         else HTML.matrix(matrix(0, 2, 1, dimnames = list(c("Sum of Squares","Deg. of Freedom"), "<empty>")),file=file)
