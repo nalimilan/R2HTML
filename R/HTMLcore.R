@@ -1591,7 +1591,7 @@ NextMethod("HTML")
     attr(x, "orig.call") <- attr(x, "conf.level") <- attr(x, "ordered") <- NULL
 	lapply(unclass(x),HTML,file=file,append=TRUE,...)
     #HTML.default(unclass(x), file=file,...)
-    return(invisible(x))
+    invisible(return(x))
 }
 
 
@@ -3746,7 +3746,7 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
     }
     cat("</p>", file = file, append=TRUE, sep = "\n")
     if (substitute(file)=="HTMLGetFile()") try(assign(".HTML.graph", TRUE, envir = .HTMLEnv))
-    return(invisible(TRUE))
+    invisible(return(TRUE))
 }
 
 #----------------------------------------------------------------------------------------------------#
@@ -3756,7 +3756,7 @@ function(x, HR = 2,CSSclass=NULL,file=HTMLGetFile(), append=TRUE, ...)
     cat("\n", file=file, append=append,...)
     cat(paste("<p align=", Align, "><img src='", GraphFileName, "' border=", GraphBorder, if (!is.null(WidthHTML)) paste(" width=",WidthHTML,sep="") else "",if (!is.null(HeightHTML)) paste(" height=",HeightHTML,sep="") else "",">", sep = "", collapse = ""),         file = file, append=TRUE, sep = "")
     if (Caption != "") cat(paste("<br><i class=caption>", Caption, "</i>"), file = file, append=TRUE, sep = "")
-    return(invisible(TRUE))
+    invisible(return(TRUE))
 }
 
 
@@ -3859,7 +3859,7 @@ function(Vec, Replace = " ")
 		}
 	txt <- paste(txt, "</table></td></table></td></table>")
 	cat(txt, "\n", file = file, sep = "", append=TRUE,...)
-	return(invisible(x))
+	invisible(return(x))
 
 	}
 
@@ -3934,13 +3934,13 @@ function(x)
 		}
 
 		if (autobrowse) browseURL(url=get("HTMLtorefresh",envir=.HTMLTmpEnv))
-		return(invisible(TRUE))
+		invisible(return(TRUE))
 		}
 	}
 	on.exit(addTaskCallback(ToHTML(.HTML.file,echo=echo,HTMLframe=HTMLframe,HTMLMenuFile=file.path(outdir,paste(filename,"_menu.",extension,sep="")),target=paste(filename,"_main.",extension,sep=""),outdir=outdir),name="HTML"),add=TRUE)
 	cat("\n *** Output redirected to directory: ", outdir)
 	cat("\n *** Use HTMLStop() to end redirection.")
-	return(invisible(TRUE))
+	invisible(return(TRUE))
 
 }
 #----------------------------------------------------------------------------------------------------#
@@ -4019,7 +4019,7 @@ else	{
 
 }
 
-	return(invisible(file))
+	invisible(return(file))
 }
 
 #----------------------------------------------------------------------------------------------------#
@@ -4042,7 +4042,7 @@ else	{
 	.tmp=get(".HTML.file",envir=.HTMLTmpEnv)
 	HTMLEndFile(file=get(".HTML.file",envir=.HTMLTmpEnv))
 	rm(".HTMLTmpEnv", envir=.HTMLEnv)
-	return(invisible(.tmp))
+	invisible(return(.tmp))
 }
 
 #----------------------------------------------------------------------------------------------------#

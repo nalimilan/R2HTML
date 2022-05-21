@@ -53,7 +53,7 @@
 	You can see those options with (by example): 
 	\code{getOption("R2HTML.format.decimal.mark")} and {options("R2HTML.format.decimal.mark"=",")}
 	
-	Sortable data.frame uses a DHTML behavior, as explained and shown in \url{http://goblet.molgen.mpg.de/moz-behaviors-example/findex.html}. This requires the file \file{tablesort.htc} which comes with \pkg{R2THML} to be placed in the same directory than the output. This functionality only works for HTML files located on a web server (not on local computer).
+	Sortable data.frame uses a DHTML behavior. This requires the file \file{tablesort.htc} which comes with \pkg{R2HTML} to be placed in the same directory than the output. This functionality only works for HTML files located on a web server (not on local computer).
 	
 
 }
@@ -68,7 +68,7 @@
 
 \seealso{ \code{\link{HTML}}}
 \examples{
-tmpfic=HTMLInitFile(tempdir(),CSSFile="http://www.stat.ucl.ac.be/R2HTML/R2HTML.css")
+tmpfic=HTMLInitFile(tempdir(),CSSFile=system.file("samples", "R2HTML.css", package="R2HTML"))
 data(iris)
 HTML(as.title("Fisher Iris dataset"),file=tmpfic)
 HTML(iris, file=tmpfic)

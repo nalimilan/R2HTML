@@ -2,7 +2,7 @@
 # R2HTML.lme.r
 # Formattted HTML printout of lme/nlme results
 # Remove R2HTML:::  when in namespace
-# Dieter Menne, (Dr. Menne Biomed Software Tübingen)
+# Dieter Menne, (Dr. Menne Biomed Software Tuebingen)
 # dieter.menne@menne-biomed.de
 #
 # Revision 0.9, 15.2.2005 # first version forwarded to Eric

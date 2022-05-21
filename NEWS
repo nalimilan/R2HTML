@@ -1,3 +1,6 @@
+# 2016-06-23 - Version 2.3.2
+- Fix error on pqR due to '..' instead of '...'.
+
 # 2014-09-21 - Version 2.3.1
 - Fixed message "Warning in formatC(Signif) : class of 'x' was discarded"
 - Fixed problem looking up objects in Sweave. R Code inside

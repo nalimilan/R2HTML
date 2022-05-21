@@ -1,4 +1,10 @@
 import(graphics,utils)
+importFrom("grDevices", "bitmap", "dev.off", "dev.print", "grey",
+           "jpeg", "png")
+importFrom("methods", "is")
+importFrom("stats", "as.ts", "asOneSidedFormula", "coef", "end",
+           "formula", "frequency", "median", "naprint", "pchisq", "pf",
+           "quantile", "start", "symnum", "time", "tsp", "var")
 
 export(HTML,
        HTMLSetFile,
@@ -189,3 +195,5 @@ S3method(HTML, coefmat)
 S3method(HTML, reStruct)
 S3method(HTML, summary.lme)   
 S3method(HTML, summary.pdDiag)
+S3method(HTML, title)
+S3method(HTML, cormat)

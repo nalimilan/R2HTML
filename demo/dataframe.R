@@ -1,4 +1,4 @@
-tmpfic=HTMLInitFile(tempdir(),CSSFile="http://www.stat.ucl.ac.be/R2HTML/R2HTML.css")
+tmpfic=HTMLInitFile(tempdir(),CSSFile=system.file("samples", "R2HTML.css", package="R2HTML"))
 data(iris)
 HTML(as.title("Fisher Iris dataset"),file=tmpfic)
 HTML(iris, file=paste("file://",tmpfic,sep=""))
