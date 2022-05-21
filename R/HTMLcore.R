@@ -309,6 +309,10 @@ function(x, file=HTMLGetFile(), append=TRUE,...)
     }
     xrv <- attr(x, "row.vars")
     xcv <- attr(x, "col.vars")
+    if (length(xcv) < 1) {
+        # in the case that there are no column variables, we still need a single (unlabeled) column
+        xcv <- list(" "="")
+    }
     LABS <- cbind(rbind(matrix("", nrow = length(xcv), ncol = length(xrv)), makeNames(xrv), makeLabels(xrv)), c(makeNames(xcv),rep("", times = nrow(x) + 1)))
     DATA <- rbind(t(makeLabels(xcv)), rep("", times = ncol(x)), format(unclass(x), digits = digits))
     x <- cbind(apply(LABS, 2, format, justify = "left"), apply(DATA, 2, format, justify = "right"))
