@@ -140,7 +140,7 @@
 
     cat(paste(txt,collapse="\n"),file=file,append=TRUE)
   if (browse) browseURL(file)
-  invisible(return(file))
+  return(invisible(file))
 }
 
 
@@ -198,7 +198,7 @@
     if (align=="center") txt <- c(txt,"\n</center>")
     cat(paste(txt,collapse="\n"),file=file,append=TRUE)
   if (browse) browseURL(file)
-  invisible(return(file))
+  return(invisible(file))
 }
 ###     HTMLgrid_inline(iris,file=NULL,browse=TRUE)
 
