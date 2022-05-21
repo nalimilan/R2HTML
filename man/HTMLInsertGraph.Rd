@@ -34,7 +34,7 @@ file=HTMLGetFile(), append=TRUE,...)
 \seealso{ \code{\link{HTMLplot}}  }
 \examples{
 
-	directory=getwd()
+	directory=tempdir()
 	HTMLoutput=file.path(directory,"output.html")
 	graph1="graph1.png"
 	# Write graph to a file
