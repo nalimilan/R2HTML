@@ -1,8 +1,8 @@
 citHeader("To cite R2HTML in publications use:")
 
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
          title = "The {R2HTML} Package",
-         author = person(first="Eric",last="Lecoutre",email="lecoutre@stat.ucl.ac.be"),
+         author = person(given="Eric",family="Lecoutre",email="lecoutre@stat.ucl.ac.be"),
          journal = "R News",
 	 year = "2003",
          volume = "3",
