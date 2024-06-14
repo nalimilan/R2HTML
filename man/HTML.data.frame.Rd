@@ -51,7 +51,7 @@
 
 	Some options are used to pass default values.
 	You can see those options with (by example): 
-	\code{getOption("R2HTML.format.decimal.mark")} and {options("R2HTML.format.decimal.mark"=",")}
+	\code{getOption("R2HTML.format.decimal.mark")} and \code{options("R2HTML.format.decimal.mark"=",")}
 	
 	Sortable data.frame uses a DHTML behavior. This requires the file \file{tablesort.htc} which comes with \pkg{R2HTML} to be placed in the same directory than the output. This functionality only works for HTML files located on a web server (not on local computer).
 	
