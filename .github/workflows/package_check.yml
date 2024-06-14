@@ -1,5 +1,10 @@
 name: R Build and Checks
-on: [push, pull_request]
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "42 3 21 * *"
 
 jobs:
   R-CMD-check:
